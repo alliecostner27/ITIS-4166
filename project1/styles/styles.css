@@ -4,24 +4,37 @@ body {
 }
 
 header {
-  background-color: #ffffff;
+  background-color: #2d3e50;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 main {
-  background-color: #52796f;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  height: 100vh;
-  background: linear-gradient(
-    to right,
-    #f5f5f5 50%,
-    url("images/Fantasy-Bloom-Background.jpg") 50%
-  );
-  background-size: cover;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
+  height: 100vh;
+  background-color: #f5efe4;
+}
+
+.image-container {
+  width: 50%;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.text-container {
+  width: 50%;
+  padding: 20px;
+  font-size: 18px;
+  color: #444c55;
+  font-family: "Times New Roman", Times, serif;
+  text-align: left;
 }
 
 p {
@@ -29,12 +42,12 @@ p {
   padding-left: 30px;
   text-align: left;
   font-size: 25px;
-  color: #2f3e46;
+  color: #444c55;
   font-family: "Times New Roman", Times, serif;
 }
 
-main img {
-  width: 100%;
+.main img {
+  width: 30%;
   height: auto;
   object-fit: cover;
   max-width: 50%;
@@ -56,13 +69,13 @@ main img {
 
 .navbar ul li a {
   text-decoration: none;
-  color: #2f3e46;
+  color: #e7c77f;
   font-size: 20px;
   font-weight: bold;
 }
 
 .navbar ul li a:hover {
-  color: #007bff;
+  color: #d4d7dd;
 }
 
 .search-bar {
@@ -88,12 +101,12 @@ main img {
 
 .search-bar input:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: #e7c77f;
 }
 
 .search-bar button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #e7c77f;
   color: white;
   border: none;
   border-radius: 30px;
@@ -103,7 +116,7 @@ main img {
 }
 
 .search-bar button:hover {
-  background-color: #0056b3;
+  background-color: #3c6955;
 }
 
 .search-bar button:focus {
@@ -111,7 +124,7 @@ main img {
 }
 
 footer {
-  background-color: #ffffff;
+  background-color: #2d3e50;
   padding: 20px 0;
   text-align: center;
 }
@@ -123,17 +136,17 @@ footer .social-media {
 footer .social-icon {
   margin: 0 15px;
   font-size: 24px;
-  color: #2f3e46;
+  color: #e7c77f;
   transition: color 0.3s ease;
 }
 
 footer .social-icon:hover {
-  color: #007bff;
+  color: #e7c77f;
 }
 
 footer p {
   font-size: 14px;
-  color: #2f3e46;
+  color: #e7c77f;
 }
 
 .item-listing-container {
@@ -172,7 +185,9 @@ footer p {
   margin: 8px 0;
 }
 
-.item-condition, .item-price, .item-offers {
+.item-condition,
+.item-price,
+.item-offers {
   font-size: 0.9em;
   color: #555;
 }
@@ -181,3 +196,174 @@ footer p {
   transform: translateY(-5px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
+.logo {
+  width: 120px;
+  height: auto;
+}
+
+.item-details-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 500px;
+}
+
+.item-image {
+  flex: 1;
+  max-width: 50%;
+}
+
+.item-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.item-info {
+  flex: 1;
+  max-width: 50%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  color: #444c55;
+}
+
+.item-info h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.item-info p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.item-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.item-buttons button {
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+.item-buttons .edit-button {
+  background-color: #e7c77f;
+  color: white;
+}
+
+.item-buttons .delete-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.item-buttons button:hover {
+  opacity: 0.8;
+}
+
+.sell-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f5efe4;
+}
+
+.sell-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.sell-text {
+  flex: 1;
+  padding: 20px;
+  font-size: 18px;
+  color: #444c55;
+  line-height: 1.5;
+}
+
+.sell-form {
+  background-color: #f9f9f9;
+  padding: 50px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sell-form h2 {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #444c55;
+}
+
+.sell-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #444c55;
+}
+
+.sell-form input,
+.sell-form select,
+.sell-form textarea,
+.sell-form button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+}
+
+.sell-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.sell-form input:focus,
+.sell-form select:focus,
+.sell-form textarea:focus {
+  outline: none;
+  border-color: #e7c77f;
+  box-shadow: 0 0 5px rgba(231, 199, 127, 0.5);
+}
+
+.sell-form button {
+  background-color: #e7c77f;
+  color: white;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sell-form button:hover {
+  background-color: #3c6955;
+}
+
+.sell-form button:focus {
+  outline: none;
+}
+
