@@ -15,7 +15,7 @@
           </div>
           <ul>
             <li><a href="items.html">Browse</a></li>
-            <li><a href="sell.html">Sell</a></li>
+            <li><a href="new.html">Sell</a></li>
             <li><a href="login.html">Login</a></li>
             <li><a href="signUp.html">Sign Up</a></li>
           </ul>
@@ -24,10 +24,39 @@
             <button type="submit">Search</button>
           </form>
         </nav>
-      </header>
-      <main>
-        
-      </main>
+    </header>
+
+    <main>
+        <div class="signup-wrapper">
+            <div class="signup-text">
+                <h1>CREATE AN ACCOUNT AT FANTASY BLOOM</h1>
+                <p>
+                    Join us today to sell and buy fantasy-inspired books from the community.
+                    Fill in the details below to get started!
+                </p>
+            </div>
+            <form action="#" method="POST" class="signup-form">
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name" />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password" />
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required placeholder="Confirm your password" />
+                </div>
+                <button type="submit" class="submit-button">Sign Up</button>
+            </form>
+        </div>
+    </main>
+
     <footer>
         <div class="social-media">
           <a href="https://facebook.com" target="_blank" class="social-icon"><i class="fab fa-facebook"></i></a>
@@ -36,6 +65,6 @@
           <a href="https://linkedin.com" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
         </div>
         <p>&copy; 2025 Fantasy Bloom. All rights reserved.</p>
-      </footer>
+    </footer>
 </body>
 </html>
