@@ -529,3 +529,144 @@ footer p {
   font-size: 14px;
   color: #e7c77f;
 }
+
+/* Edit Page Specific Styling */
+.edit-page-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background-color: #f5efe4;
+}
+
+.edit-form-container {
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.edit-form-container label {
+  display: block;
+  font-size: 16px;
+  color: #444c55;
+  margin-bottom: 8px;
+}
+
+.edit-form-container input,
+.edit-form-container select,
+.edit-form-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.edit-form-container textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.edit-form-container input:focus,
+.edit-form-container select:focus,
+.edit-form-container textarea:focus {
+  outline: none;
+  border-color: #e7c77f;
+  box-shadow: 0 0 5px rgba(231, 199, 127, 0.5);
+}
+
+.edit-form-container input[type="file"] {
+  padding: 5px;
+  background-color: #fff;
+}
+
+.edit-form-container input[type="submit"] {
+  background-color: #e7c77f;
+  color: white;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 30px;
+  transition: background-color 0.3s ease;
+}
+
+.edit-form-container input[type="submit"]:hover {
+  background-color: #3c6955;
+}
+
+.edit-form-container input[type="submit"]:focus {
+  outline: none;
+}
+
+/* Delete Button Styling */
+.delete-form-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.delete-button-edit {
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button-edit:hover {
+  background-color: #c33a2b;
+}
+
+.delete-button-edit:focus {
+  outline: none;
+}
+
+/* Current Image Display */
+.edit-form-container p {
+  font-size: 14px;
+  color: #444c55;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.edit-form-container img {
+  border-radius: 8px;
+  max-width: 100px;
+  height: auto;
+  margin-top: 10px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .edit-form-container {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .edit-form-container label,
+  .edit-form-container input,
+  .edit-form-container select,
+  .edit-form-container textarea {
+    font-size: 14px;
+  }
+
+  .edit-form-container input[type="submit"] {
+    font-size: 14px;
+  }
+
+  .delete-button-edit {
+    font-size: 14px;
+  }
+}
+

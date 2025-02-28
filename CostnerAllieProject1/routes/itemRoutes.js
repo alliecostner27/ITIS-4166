@@ -1,6 +1,8 @@
 const express = require('express');
 const controller = require('../controllers/itemController');
 const router = express.Router();
+const multer = require('multer');
+const upload = multer({ dest: 'public/uploads/' });
 
 // index: GET /items
 router.get('/', controller.index);
@@ -9,8 +11,7 @@ router.get('/', controller.index);
 router.get('/new', controller.new);
 
 // create: POST /items
-// Removed the image upload middleware (multer) as we now handle image URLs directly
-router.post("/", controller.create);
+router.post('/', controller.create);
 
 // show: GET /items/:id
 router.get('/:id', controller.show);
@@ -19,7 +20,7 @@ router.get('/:id', controller.show);
 router.get('/:id/edit', controller.edit);
 
 // update: PUT /items/:id
-router.put('/:id', controller.update);
+router.put('/:id', upload.single('image'), controller.update);
 
 // delete: DELETE /items/:id
 router.delete('/:id', controller.delete);

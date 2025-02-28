@@ -1,7 +1,7 @@
 <%- include('../partials/header') %>
 
-<div class="content">
-    <form method="POST" action="/items/<%= item.id %>?_method=PUT" class="new-form" enctype="multipart/form-data">
+<div class="edit-page-content">
+    <form method="POST" action="/items/<%= item.id %>?_method=PUT" class="edit-form-container" enctype="multipart/form-data">
         <label for="title">Title</label>
         <input type="text" id="title" name="title" value="<%= item.title %>" required>
         
@@ -25,17 +25,18 @@
 
         <!-- Show the current image if it exists -->
         <% if (item.image) { %>
-            <p>Current Image: <img src="/images/<%= item.image %>" alt="Current Image" width="100" /></p>
+            <p>Current Image: <img src="/<%= item.image %>" alt="Current Image" /></p>
+        <% } else { %>
+            <p>No image available</p> <!-- Fallback message if no image exists -->
         <% } %>
 
         <input type="submit" value="Update Item">
     </form>
 
     <!-- Delete Button Form -->
-    <form action="/items/<%= item.id %>?_method=DELETE" method="POST" class="delete-form">
-        <button type="submit" class="delete-button">Delete Item</button>
+    <form action="/items/<%= item.id %>?_method=DELETE" method="POST" class="delete-form-container">
+        <button type="submit" class="delete-button-edit">Delete Item</button>
     </form>
 </div>
 
 <%- include('../partials/footer') %>
-
