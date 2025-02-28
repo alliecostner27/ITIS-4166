@@ -1,8 +1,10 @@
-//import item model
 const model = require("../models/item");
+
+// Removed multer setup since we are no longer using it for file storage
 
 exports.index = (req, res) => {
   let items = model.find();
+  items.sort((a, b) => a.price - b.price);
   res.render("./item/index", { items });
 };
 
@@ -11,22 +13,34 @@ exports.login = (req, res) => {
 };
 
 exports.signup = (req, res) => {
-  res.render("signup"); 
+  res.render("signup");
 };
 
-//new: GET /items/new
+// new: GET /items/new
 exports.new = (req, res) => {
-  let item = req.body;
-  model.save(item);
-  res.redirect("/items");
+  res.render("./item/new"); // Ensures the form page is rendered properly
 };
 
-//create: POST /items
-exports.create = (req, res) => {
-  res.send("create a new item");
+// create: POST /items
+exports.create = (req, res, next) => {
+  try {
+    let newItem = {
+      condition: req.body.condition,
+      title: req.body.title,
+      seller: req.body.seller,
+      price: parseFloat(req.body.price), // Ensure price is stored as a number
+      details: req.body.details,
+      image: req.body.image || "default.jpg", // Use uploaded image URL or default image
+    };
+
+    model.save(newItem); // Save the new item
+    res.redirect("/items"); // Redirect to items list
+  } catch (err) {
+    next(err);
+  }
 };
 
-//show: GET /items/:id
+// show: GET /items/:id
 exports.show = (req, res, next) => {
   let id = req.params.id;
   let item = model.findById(id);
@@ -40,7 +54,7 @@ exports.show = (req, res, next) => {
   }
 };
 
-//edit: GET /items/:id/edit
+// edit: GET /items/:id/edit
 exports.edit = (req, res, next) => {
   let id = req.params.id;
   let item = model.findById(id);
@@ -53,21 +67,28 @@ exports.edit = (req, res, next) => {
   }
 };
 
-//update: PUT /items/:id
+// update: PUT /items/:id
 exports.update = (req, res, next) => {
-  let item = req.body;
   let id = req.params.id;
+  let updatedItem = {
+    condition: req.body.condition,
+    title: req.body.title,
+    seller: req.body.seller,
+    price: parseFloat(req.body.price),
+    details: req.body.details,
+    image: req.body.image || req.body.existingImage, // Keep existing image if not updated
+  };
 
-  if (model.updateById(id, item)) {
+  if (model.updateById(id, updatedItem)) {
     res.redirect("/items/" + id);
   } else {
-      let err = new Error("Cannot find item with id " + id);
-      err.status = 404;
-      next(err);
+    let err = new Error("Cannot find item with id " + id);
+    err.status = 404;
+    next(err);
   }
 };
 
-//delete: DELETE /items/:id
+// delete: DELETE /items/:id
 exports.delete = (req, res, next) => {
   let id = req.params.id;
   if (model.deleteById(id)) {
@@ -78,3 +99,5 @@ exports.delete = (req, res, next) => {
     next(err);
   }
 };
+
+// Removed multer upload middleware as it's no longer used

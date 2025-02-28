@@ -1,9 +1,9 @@
-<%- include ('../partials/header') %>
+<%- include('../partials/header') %>
 <main>
   <div class="item-details-container">
     <div class="item-image">
       <!-- Assuming item.image contains just the image file name, like 'fourthWing.jpg' -->
-      <img src="/<%= item.image %>" alt="<%= item.title %>" />
+      <img src="/<%= item.image.replace('public/', '') %>" alt="<%= item.title %>" />
     </div>
     <div class="item-info">
       <h2 class="item-title"><%= item.title %></h2>
@@ -12,11 +12,17 @@
       <p class="item-offers">Total Offers: <%= item.offers %></p>
       <p class="item-seller">Seller: <%= item.seller %></p>
       <div class="item-buttons">
-        <button class="edit-button" type ="submit" formmethod="GET" formaction="/items/<%= item.id%>/edit">Edit</button>
-        <button class="delete-button" type ="submit" formmethod="POST" formaction="/items/<%= item.id%>?_method=DELETE">Delete</button>
+        <!-- Edit Button (link to edit page) -->
+        <a href="/items/<%= item.id %>/edit" class="edit-button">Edit</a>
+
+        <!-- Delete Button -->
+        <form method="POST" action="/items/<%= item.id %>?_method=DELETE" class="delete-form">
+          <button type="submit" class="delete-button">Delete Item</button>
+        </form>
       </div>
     </div>
   </div>
 </main>
 
-<%- include ('../partials/footer') %>
+<%- include('../partials/footer') %>
+
