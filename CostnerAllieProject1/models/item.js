@@ -1,3 +1,5 @@
+const {v4: uuidv4} = require('uuid');
+
 const items = [
     {
         id: '1',
@@ -67,6 +69,27 @@ exports.find = function() {
 
 exports.findById = function(id) {
     return items.find(item => item.id === id);
+}
+
+exports.save = function(item){
+    item.id = uuidv4();
+    items.push(item);
+}
+
+exports.updateById = function(id, newItem){
+    let item = items.find(item => item.id === id);
+    if (item) {
+        item.title = newItem.title;
+        item.seller = newItem.seller;
+        item.condition = newItem.condition;
+        item.price = newItem.price;
+        item.details = newItem.details;
+        item.image = newItem.image;
+        return true;
+    } else {
+        return false;
+    }
+    
 }
 
 exports.deleteById = function(id){
