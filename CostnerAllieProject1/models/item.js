@@ -71,12 +71,18 @@ exports.findById = function(id) {
     return items.find(item => item.id === id);
 }
 
-exports.save = function(item){
+// Save a new item
+exports.save = function(item) {
     item.id = uuidv4();
+    // If there is an image uploaded, use the uploaded image's filename
+    if (item.image && item.image.startsWith('uploads/')) {
+        item.image = '/uploads/' + item.image;  // Update image path to reflect the uploaded location
+    }
     items.push(item);
 }
 
-exports.updateById = function(id, newItem){
+// Update item by id
+exports.updateById = function(id, newItem) {
     let item = items.find(item => item.id === id);
     if (item) {
         item.title = newItem.title;
@@ -84,12 +90,11 @@ exports.updateById = function(id, newItem){
         item.condition = newItem.condition;
         item.price = newItem.price;
         item.details = newItem.details;
-        item.image = newItem.image;
+        item.image = newItem.image ? '/uploads/' + newItem.image : item.image;  // Ensure proper image path
         return true;
     } else {
         return false;
     }
-    
 }
 
 exports.deleteById = function(id){

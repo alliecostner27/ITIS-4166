@@ -2,6 +2,8 @@
 
 <div class="edit-page-content">
     <form method="POST" action="/items/<%= item.id %>?_method=PUT" class="edit-form-container" enctype="multipart/form-data">
+        <input type="hidden" name="seller" value="<%= item.seller %>"> <!-- Hidden input for seller -->
+
         <label for="title">Title</label>
         <input type="text" id="title" name="title" value="<%= item.title %>" required>
         

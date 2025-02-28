@@ -67,7 +67,6 @@ exports.edit = (req, res, next) => {
   }
 };
 
-// update: PUT /items/:id
 exports.update = (req, res, next) => {
   let id = req.params.id;
   let updatedItem = {
@@ -76,9 +75,11 @@ exports.update = (req, res, next) => {
     seller: req.body.seller,
     price: parseFloat(req.body.price),
     details: req.body.details,
-    image: req.body.image || req.body.existingImage, // Keep existing image if not updated
+    // Use the uploaded image file or keep the existing image if none is uploaded
+    image: req.file ? req.file.filename : req.body.existingImage,
   };
 
+  // Update the item in the model
   if (model.updateById(id, updatedItem)) {
     res.redirect("/items/" + id);
   } else {
@@ -87,6 +88,7 @@ exports.update = (req, res, next) => {
     next(err);
   }
 };
+
 
 // delete: DELETE /items/:id
 exports.delete = (req, res, next) => {
