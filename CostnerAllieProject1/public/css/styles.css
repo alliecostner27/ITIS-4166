@@ -22,6 +22,28 @@ main {
   width: 50%;
 }
 
+.item img, .item-image img {
+  width: 100% !important;
+  max-width: 200px !important;
+  height: auto !important;
+  object-fit: cover !important;
+  border-radius: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+.item-title, .item-info h2 {
+  font-size: 1.1em !important;
+  font-weight: bold !important;
+  margin: 8px 0 10px 0 !important;
+  color: #444c55 !important;
+}
+
+.item-condition, .item-price, .item-offers, .item-info p {
+  font-size: 0.9em !important;
+  color: #555 !important;
+  margin: 5px 0 !important;
+}
+
 .image-container img {
   width: 100%;
   height: auto;
