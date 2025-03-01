@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+
+<main>
+    <h1>Search Results for "<%= searchTerm %>"</h1>
+
+    <% if (items.length > 0) { %>
+        <div class="item-list">
+            <% items.forEach(item => { %>
+                <div class="item">
+                    <a href="/items/<%= item.id %>">
+                        <img src="/<%= item.image %>" alt="<%= item.title %>" />
+                        <h2><%= item.title %></h2>
+                        <p>Price: $<%= item.price %></p>
+                    </a>
+                </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <p>No items found matching your search.</p>
+    <% } %>
+</main>
+
+<%- include('../partials/footer') %>

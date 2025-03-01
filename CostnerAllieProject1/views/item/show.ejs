@@ -2,8 +2,7 @@
 <main>
   <div class="item-details-container">
     <div class="item-image">
-      <!-- Assuming item.image contains just the image file name, like 'fourthWing.jpg' -->
-      <img src="/<%= item.image.replace('public/', '') %>" alt="<%= item.title %>" />
+      <img src="/<%= item.image %>" alt="<%= item.title %>" />
     </div>
     <div class="item-info">
       <h2 class="item-title"><%= item.title %></h2>
@@ -13,12 +12,10 @@
       <p class="item-seller">Seller: <%= item.seller %></p>
 
       <div class="item-buttons">
-        <!-- Edit Button (link to edit page) -->
         <form method="GET" action="/items/<%= item.id %>/edit" class="edit-form">
           <button type="submit" class="edit-button">Edit</button>
         </form>
 
-        <!-- Delete Button -->
         <form method="POST" action="/items/<%= item.id %>?_method=DELETE" class="delete-form">
           <button type="submit" class="delete-button">Delete Item</button>
         </form>
@@ -28,4 +25,3 @@
 </main>
 
 <%- include('../partials/footer') %>
-

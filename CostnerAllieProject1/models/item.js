@@ -107,3 +107,15 @@ exports.deleteById = function(id){
         return false;
     }
 }
+
+exports.search = (searchTerm) => {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    const results = items.filter(item => {
+        const lowerTitle = item.title.toLowerCase();
+        const lowerDetails = item.details.toLowerCase();
+        const titleMatch = lowerTitle.includes(lowerSearchTerm);
+        const detailsMatch = lowerDetails.includes(lowerSearchTerm);
+        return titleMatch || detailsMatch;
+    });
+    return results;
+};
