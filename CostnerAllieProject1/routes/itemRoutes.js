@@ -2,28 +2,43 @@ const express = require('express');
 const controller = require('../controllers/itemController');
 const router = express.Router();
 const multer = require('multer');
-const upload = multer({ dest: 'public/uploads/' });
+const path = require('path');
 
-// index: GET /items
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads/');
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage,
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+            cb(null, true);
+        } else {
+            cb(null, false);
+            return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+        }
+    }
+ });
+
 router.get('/', controller.index);
-
-// new: GET /items/new
 router.get('/new', controller.new);
-
-// create: POST /items
-router.post('/', upload.single('image'), controller.create);  // Handle image upload for create
-
-// show: GET /items/:id
+router.post('/', upload.single('image'), (req, res, next) => {
+    controller.create(req, res, next);
+}, (error, req, res, next) => {
+    res.render('items/new', {errors: {image: {message: error.message}}, item: req.body});
+});
 router.get('/:id', controller.show);
-
-// edit: GET /items/:id/edit
 router.get('/:id/edit', controller.edit);
-
-// update: PUT /items/:id
-router.put('/:id', upload.single('image'), controller.update);  // Handle image upload for update
-
-// delete: DELETE /items/:id
+router.put('/:id', upload.single('image'), (req, res, next) => {
+    controller.update(req, res, next);
+}, (error, req, res, next) => {
+        res.render('items/edit', {errors: {image: {message: error.message}}, item: req.body});
+});
 router.delete('/:id', controller.delete);
 
 module.exports = router;
-

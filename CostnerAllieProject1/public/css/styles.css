@@ -670,3 +670,14 @@ footer p {
   }
 }
 
+/* Specific Styling for item-details */
+.item-details {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
