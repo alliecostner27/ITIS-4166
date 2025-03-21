@@ -1,71 +1,29 @@
 const express = require("express");
 const controller = require("../controllers/itemController");
 const router = express.Router();
-const multer = require("multer");
-const path = require("path");
 
-const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, "public/uploads/");
-  },
-  filename: function(req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(
-      null,
-      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
-    );
-  }
-});
-
-const upload = multer({
-  storage: storage,
-  fileFilter: (req, file, cb) => {
-    if (
-      file.mimetype == "image/png" ||
-      file.mimetype == "image/jpg" ||
-      file.mimetype == "image/jpeg"
-    ) {
-      cb(null, true);
-    } else {
-      cb(null, false);
-      return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
-    }
-  }
-});
-
+// Route to search items
 router.get("/search", controller.searchItems);
 
+// Route to list all items
 router.get("/", controller.index);
-router.get("/new", controller.new);
-router.post(
-  "/",
-  upload.single("image"),
-  (req, res, next) => {
-    controller.create(req, res, next);
-  },
-  (error, req, res, next) => {
-    res.render("items/new", {
-      errors: { image: { message: error.message } },
-      item: req.body
-    });
-  }
-);
-router.get("/:id", controller.show);
-router.get("/:id/edit", controller.edit);
-router.put(
-  "/:id",
-  upload.single("image"),
-  (req, res, next) => {
-    controller.update(req, res, next);
-  },
-  (error, req, res, next) => {
-    res.render("items/edit", {
-      errors: { image: { message: error.message } },
-      item: req.body
-    });
-  }
-);
-router.delete("/:id", controller.delete);
 
+// Route to show form to create new item
+router.get("/new", controller.new);
+
+// Route to create new item
+router.post("/", controller.uploadImage, controller.create);
+
+// Route to show single item
+router.get("/:id", controller.show);
+
+// Route to show form to edit item
+router.get("/:id/edit", controller.edit);
+
+// Route to update item
+router.put("/:id", controller.uploadImage, controller.update);
+
+// Route to delete item
+router.delete("/:id", controller.delete);
 
 module.exports = router;

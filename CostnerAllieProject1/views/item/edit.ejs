@@ -9,11 +9,8 @@
 
         <label for="condition">Condition</label>
         <select id="condition" name="condition" required>
-            <option value="New" <%= item.condition === 'New' ? 'selected' : '' %>>New</option>
-            <option value="Like New" <%= item.condition === 'Like New' ? 'selected' : '' %>>Like New</option>
-            <option value="Good" <%= item.condition === 'Good' ? 'selected' : '' %>>Good</option>
-            <option value="Fair" <%= item.condition === 'Fair' ? 'selected' : '' %>>Fair</option>
-            <option value="Poor" <%= item.condition === 'Poor' ? 'selected' : '' %>>Poor</option>
+            <option value="Brand new" <%= item.condition === 'Brand new' ? 'selected' : '' %>>Brand new</option>
+            <option value="Used" <%= item.condition === 'Used' ? 'selected' : '' %>>Used</option>
         </select>
 
         <label for="price">Price ($)</label>
@@ -26,7 +23,7 @@
         <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
         <div id="imagePreview">
             <% if (item.image) { %>
-                <p>Current Image: <img src="/<%= item.image %>" alt="Current Image" style="max-width: 200px;" /></p>
+                <p>Current Image: <img src="/uploads/<%= item.image %>" alt="Current Image" style="max-width: 200px;" /></p>
             <% } else { %>
                 <p>No image available</p>
             <% } %>
@@ -51,7 +48,7 @@
             };
             reader.readAsDataURL(file);
         } else {
-            imagePreview.innerHTML = `<% if (item.image) { %><p>Current Image: <img src="/<%= item.image %>" alt="Current Image" style="max-width: 200px;" /></p><% } else { %><p>No image available</p><% } %>`;
+            imagePreview.innerHTML = `<% if (item.image) { %><p>Current Image: <img src="/uploads/<%= item.image %>" alt="Current Image" style="max-width: 200px;" /></p><% } else { %><p>No image available</p><% } %>`;
         }
     }
 </script>

@@ -1,11 +1,63 @@
 const model = require("../models/item");
+const multer = require("multer");
+const path = require("path");
 
-// Removed multer setup since we are no longer using it for file storage
+// Set storage engine for multer
+const storage = multer.diskStorage({
+  destination: './public/uploads/',
+  filename: function(req, file, cb){
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
 
-exports.index = (req, res) => {
-  let items = model.find();
-  items.sort((a, b) => a.price - b.price);
-  res.render("./item/index", { items });
+// Init upload
+const upload = multer({
+  storage: storage,
+  limits: {fileSize: 1000000},
+  fileFilter: function(req, file, cb){
+    checkFileType(file, cb);
+  }
+}).single('image');
+
+// Check file type
+function checkFileType(file, cb){
+  // Allowed ext
+  const filetypes = /jpeg|jpg|png|gif/;
+  // Check ext
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  // Check mime
+  const mimetype = filetypes.test(file.mimetype);
+
+  if(mimetype && extname){
+    return cb(null,true);
+  } else {
+    cb('Error: Images Only!');
+  }
+}
+
+exports.uploadImage = (req, res, next) => {
+  upload(req, res, (err) => {
+    if(err){
+      res.render('index', {
+        msg: err
+      });
+    } else {
+      if(req.file == undefined){
+        res.render('index', {
+          msg: 'Error: No File Selected!'
+        });
+      } else {
+        next();
+      }
+    }
+  });
+};
+
+exports.index = (req, res, next) => {
+  //send all the items
+  model.find().sort({ price: 1 })
+  .then(items => res.render("./item/index", { items }))
+  .catch(err => next(err));
 };
 
 exports.login = (req, res) => {
@@ -16,59 +68,78 @@ exports.signup = (req, res) => {
   res.render("signup");
 };
 
-// new: GET /items/new
 exports.new = (req, res) => {
-  res.render("./item/new"); // Ensures the form page is rendered properly
+  res.render("./item/new"); 
 };
 
 // create: POST /items
 exports.create = (req, res, next) => {
-  try {
-    let newItem = {
-      condition: req.body.condition,
-      title: req.body.title,
-      seller: req.body.seller,
-      price: parseFloat(req.body.price), // Ensure price is stored as a number
-      details: req.body.details,
-      image: req.body.image || "default.jpg", // Use uploaded image URL or default image
-    };
-
-    model.save(newItem); // Save the new item
-    res.redirect("/items"); // Redirect to items list
-  } catch (err) {
-    next(err);
-  }
-};
+  let item = new model({
+    condition: req.body.condition,
+    title: req.body.title,
+    seller: req.body.seller,
+    price: parseFloat(req.body.price), 
+    details: req.body.details,
+    image: req.file ? req.file.filename : "default.jpg", 
+  });
+  item.save() //insert the document to the database
+  .then(item => res.redirect("/items"))
+  .catch(err => next(err));
+}
 
 // show: GET /items/:id
 exports.show = (req, res, next) => {
   let id = req.params.id;
-  let item = model.findById(id);
-
-  if (item) {
-    res.render("./item/show", { item });
-  } else {
-    let err = new Error("Cannot find item with id " + id);
-    err.status = 404;
-    next(err);
+  if(!id.match(/^[0-9a-fA-F]{24}$/)) {
+    let err = new Error("Invalid item id");
+    err.status = 400;
+    return next(err);
   }
+
+  model.findById(id)
+  .then(item => {
+    if(item){
+      res.render("./item/show", { item });
+    } else {
+      let err = new Error("Cannot find item with id " + id);
+      err.status = 404;
+      next(err);
+    }
+  })
+  .catch(err => next(err));
 };
 
 // edit: GET /items/:id/edit
 exports.edit = (req, res, next) => {
   let id = req.params.id;
-  let item = model.findById(id);
-  if (item) {
-    res.render("./item/edit", { item });
-  } else {
-    let err = new Error("Cannot find item with id " + id);
-    err.status = 404;
-    next(err);
+  if(!id.match(/^[0-9a-fA-F]{24}$/)) {
+    let err = new Error("Invalid item id");
+    err.status = 400;
+    return next(err);
   }
+
+  model.findById(id)
+  .then(item => {
+    if (item) {
+      res.render("./item/edit", { item });
+    } else {
+      let err = new Error("Cannot find item with id " + id);
+      err.status = 404;
+      next(err);
+    }
+  })
+  .catch(err => next(err));
 };
 
+// update: PUT /items/:id
 exports.update = (req, res, next) => {
   let id = req.params.id;
+  if(!id.match(/^[0-9a-fA-F]{24}$/)) {
+    let err = new Error("Invalid item id");
+    err.status = 400;
+    return next(err);
+  }
+
   let updatedItem = {
     condition: req.body.condition,
     title: req.body.title,
@@ -79,27 +150,44 @@ exports.update = (req, res, next) => {
     image: req.file ? req.file.filename : req.body.existingImage,
   };
 
-  // Update the item in the model
-  if (model.updateById(id, updatedItem)) {
-    res.redirect("/items/" + id);
-  } else {
-    let err = new Error("Cannot find item with id " + id);
-    err.status = 404;
-    next(err);
-  }
+  model.findByIdAndUpdate(id, updatedItem, {useFindAndModify: false, runValidators: true})
+  .then(item => {
+    if(item){
+      res.redirect("/items/" + id);
+    } else {
+      let err = new Error("Cannot find item with id " + id);
+      err.status = 404;
+      next(err);
+    }
+  })
+  .catch(err => {
+    if(err.name === 'ValidationError') {
+      err.status = 400;
+      next(err);
+    }
+  });
 };
-
 
 // delete: DELETE /items/:id
 exports.delete = (req, res, next) => {
   let id = req.params.id;
-  if (model.deleteById(id)) {
-    res.redirect("/items");
-  } else {
-    let err = new Error("Cannot find item with id " + id);
-    err.status = 404;
-    next(err);
+  if(!id.match(/^[0-9a-fA-F]{24}$/)) {
+    let err = new Error("Invalid item id");
+    err.status = 400;
+    return next(err);
   }
+
+  model.findByIdAndDelete(id, {useFindAndModify: false, runValidators: true})
+  .then(item => {
+    if(item){
+      res.redirect("/items");
+    } else {
+      let err = new Error("Cannot find item with id " + id);
+      err.status = 404;
+      next(err);
+    }
+  })
+  .catch(err => next(err));
 };
 
 exports.searchItems = (req, res, next) => {

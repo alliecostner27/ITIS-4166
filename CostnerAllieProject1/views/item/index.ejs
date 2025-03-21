@@ -6,9 +6,9 @@
             <div class="item">
                 <a href="/items/<%= item.id %>">
                     <% if (item.image) { %>
-                        <img src="<%= item.image.replace('../public/', '') %>" alt="<%= item.title %>">
+                        <img src="/uploads/<%= item.image %>" alt="<%= item.title %>">
                     <% } else { %>
-                        <img src="/path/to/placeholder-image.jpg" alt="No image available">
+                        <img src="/uploads/default.jpg" alt="No image available">
                     <% } %>
                     <h3 class="item-title"><%= item.title %></h3>
                     <p class="item-condition">Condition: <%= item.condition %></p>
