@@ -3,21 +3,22 @@
 <div class="edit-page-content">
     <form method="POST" action="/items/<%= item.id %>?_method=PUT" class="edit-form-container" enctype="multipart/form-data">
         <input type="hidden" name="seller" value="<%= item.seller %>">
+        <input type="hidden" name="existingImage" value="<%= item.image %>">
 
         <label for="title">Title</label>
-        <input type="text" id="title" name="title" value="<%= item.title %>" required>
+        <input type="text" id="title" name="title" value="<%= item.title %>">
 
         <label for="condition">Condition</label>
-        <select id="condition" name="condition" required>
+        <select id="condition" name="condition">
             <option value="Brand new" <%= item.condition === 'Brand new' ? 'selected' : '' %>>Brand new</option>
             <option value="Used" <%= item.condition === 'Used' ? 'selected' : '' %>>Used</option>
         </select>
 
         <label for="price">Price ($)</label>
-        <input type="number" id="price" name="price" value="<%= item.price %>" min="0.01" step="0.01" required>
+        <input type="number" id="price" name="price" value="<%= item.price %>" min="0.01" step="0.01">
 
         <label for="details">Details</label>
-        <textarea rows="5" id="details" name="details" class="fixed-width" required><%= item.details %></textarea>
+        <textarea rows="5" id="details" name="details" class="fixed-width"><%= item.details %></textarea>
 
         <label for="image">Upload Image</label>
         <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">

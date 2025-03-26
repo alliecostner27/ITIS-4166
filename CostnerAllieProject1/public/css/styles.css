@@ -228,23 +228,27 @@ footer p {
   height: auto;
 }
 
+/* Item Details Styling */
 .item-details-container {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  padding: 20px; /* Reduced excessive padding */
+  align-items: flex-start;
+  padding: 20px;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .item-image {
   flex: 1;
-  max-width: 50%;
+  max-width: 400px;
 }
 
 .item-image img {
   width: 100%;
   height: auto;
-  object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .item-info {

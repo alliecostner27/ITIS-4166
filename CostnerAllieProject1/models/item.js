@@ -11,5 +11,16 @@ const itemSchema = new Schema({
     active: {type: Boolean, default: true }
 }, { timestamps: true });
 
+itemSchema.statics.search = function(searchTerm) {
+    return this.find({
+      $or: [
+        { title: new RegExp(searchTerm, 'i') },
+        { details: new RegExp(searchTerm, 'i') }
+      ]
+    });
+};
+
+
+
 //collection name is items in the database
 module.exports = mongoose.model('Item', itemSchema);

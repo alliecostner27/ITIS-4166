@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const itemRoutes = require('./routes/itemRoutes');
 const controller = require('./controllers/itemController');
 const path = require('path');
-
+const bodyParser = require('body-parser');
 //create app
 const app = express();
 
@@ -18,7 +18,6 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 const mongoURI = 'mongodb+srv://admin:4970@cluster0.ckady.mongodb.net/project3?retryWrites=true&w=majority&appName=Cluster0';
 
-
 //connect to mongoDB
 mongoose.connect(mongoURI)
 .then(() => {
@@ -28,12 +27,13 @@ mongoose.connect(mongoURI)
 })
 .catch(err => console.log(err.message));
 
-
 //mount middleware
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('tiny'));
 app.use(methodOverride('_method'));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.get('/login', controller.login);
 app.get('/signup', controller.signup);
@@ -51,7 +51,6 @@ app.use((req, res, next) => {
     let err = new Error('The server cannot locate ' + req.url);
     err.status = 404;
     next(err);
-
 });
 
 app.use((err, req, res, next)=>{
@@ -64,4 +63,3 @@ app.use((err, req, res, next)=>{
     res.status(err.status);
     res.render('error', {error: err});
 });
-
